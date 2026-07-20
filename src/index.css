@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+/* 아이템 등급 색상 (bg-grade-*, text-grade-*, border-grade-* 유틸 생성) */
+@theme {
+  --color-grade-common: #91959a;
+  --color-grade-uncommon: #67b26d;
+  --color-grade-rare: #4d73ae;
+  --color-grade-epic: #7a5fa4;
+  --color-grade-legend: #9d7b28;
+  --color-grade-mythic: #782c2c;
+}
+
+/* v4는 버튼 기본 커서가 default라 v3와 동일하게 pointer 유지 */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+html {
+  height: 100%;
+  overflow-y: scroll;
+}
+
+body {
+  height: 100%;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #374151;
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #6b7280;
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
