@@ -48,6 +48,14 @@ function PlayerPageContent() {
     resetBattleResult()
   }, [name])
 
+  // 탭 이름을 "DAYO GG :: {유저명}"으로, 페이지를 떠나면 기본값으로 복원한다
+  useEffect(() => {
+    document.title = name ? `DAYO GG :: ${name}` : 'DAYO GG'
+    return () => {
+      document.title = 'DAYO GG'
+    }
+  }, [name])
+
   // 조회 완료(최초 로드·갱신 완료 공통) 시 파생 데이터를 조회한다
   useEffect(() => {
     if (status !== 'ready' || !latestSeasonId) return
