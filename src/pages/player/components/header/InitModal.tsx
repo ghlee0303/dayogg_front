@@ -116,7 +116,7 @@ function Authentication({ routeNumber, routeTitle, onChangeRouteNumber, onPrev, 
           variant="secondary"
           onClick={onConfirm}
           disabled={!routeNumber.trim()}
-          className="text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+          className="text-sm"
         >
           초기화
         </Button>

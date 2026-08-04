@@ -59,7 +59,7 @@ export function SearchRangeModalButton() {
         variant="primary"
         onClick={() => setIsOpen(true)}
         disabled={!rangeLimit}
-        className="text-sm px-3 py-1.5"
+        className="text-sm font-bold! px-3 py-1.5"
       >
         세부 검색
       </Button>

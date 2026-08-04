@@ -9,7 +9,7 @@ import { toSeasonOptions } from '@/types/PlayerType'
 import { usePlayer } from '@/contexts/PlayerContext'
 import { useLocale } from '@/contexts/meta/LocaleContext'
 import { getCharacterImgSrc, getImgSrc } from '@/utils/imgSrc'
-import { formatTimeAgo } from '@/utils/timeUtils'
+import { formatTimeAgo, minutesSince } from '@/utils/timeUtils'
 
 interface PlayerHeaderProps {
   onSelectSeason: (seasonId: string) => void,
@@ -19,6 +19,9 @@ interface PlayerHeaderProps {
 
 const TABS = ['프로필', '실험체'] as const
 export type Tab = typeof TABS[number]
+
+// 마지막 조회 후 이 시간이 지나야 다시 갱신할 수 있다
+const REFRESH_COOLDOWN_MINUTES = 10
 
 export function PlayerHeader({ /* onSelectSeason, */ activeTab, onTabChange }: PlayerHeaderProps) {
   return (
@@ -67,14 +70,27 @@ function PlayerProfile() {
 }
 
 function RefreshButton() {
-  const { status, refresh } = usePlayer()
+  const { player, status, refresh } = usePlayer()
   // 갱신 사이클(refresh SSE + info 재조회) 전체를 커버하는 버튼 로딩 상태
   const refreshLoading = status === 'refreshing' || status === 'syncing'
 
+  // lastSearchTime이 없거나 파싱할 수 없으면(초기값 '-') 쿨다운을 걸지 않는다
+  const elapsedMinutes = minutesSince(player.lastSearchTime)
+  const isFresh = elapsedMinutes != null && elapsedMinutes < REFRESH_COOLDOWN_MINUTES
+  // 갱신 중에는 로딩 표시가 우선이다
+  const showFresh = isFresh && !refreshLoading
+
   return (
-    <Button variant="success" onClick={refresh} disabled={refreshLoading} className="flex items-center gap-1 text-sm px-3 py-1.5">
-      <RefreshCw size={14} />
-      {refreshLoading ? '갱신 중...' : '전적 갱신'}
+    <Button
+      variant={showFresh ? 'warning' : 'success'}
+      // disabled 대신 핸들러를 떼서, 흐려지거나 커서가 바뀌지 않는 상태 표시로 남긴다
+      onClick={showFresh ? undefined : refresh}
+      disabled={refreshLoading}
+      // Button base의 font-medium이 CSS 순서상 뒤에 와서 이기므로 !로 덮는다
+      className={`flex items-center gap-1 text-sm font-bold! px-3 py-1.5 ${showFresh ? 'cursor-default' : ''}`}
+    >
+      {refreshLoading && <RefreshCw size={14} />}
+      {refreshLoading ? '갱신 중...' : showFresh ? '최신 정보' : '전적 갱신'}
     </Button>
   )
 }
