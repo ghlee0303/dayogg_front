@@ -27,8 +27,6 @@ export function RouteAuthProvider({ children }: { children: ReactNode }) {
         playerId: `${playerId}`,
       },
       onSuccess: (data) => {
-        console.log(data);
-
         setRouteAuth(data)
       }
     })
@@ -43,8 +41,6 @@ export function RouteAuthProvider({ children }: { children: ReactNode }) {
         playerId: `${playerId}`,
       },
       onSuccess: (data) => {
-        console.log(data);
-
         setRouteAuth(data)
       }
     })

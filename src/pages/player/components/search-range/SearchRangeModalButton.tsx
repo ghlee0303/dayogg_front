@@ -41,8 +41,7 @@ export function SearchRangeModalButton() {
     if (!player || !seasonId) return;
 
     const requestList = fromSearchRangeOptions(confirmOptions);
-    console.log(requestList);
-    
+
     getStatisticsByRange(player.id, seasonId, requestList);
   }
 

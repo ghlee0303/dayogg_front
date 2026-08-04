@@ -46,9 +46,6 @@ function PlayerProfile() {
   const { player, playerSeasonDetail } = usePlayer()
   const src = getCharacterImgSrc('MINI', playerSeasonDetail?.mostCharacterNum)
 
-  console.log(player);
-  
-  
   return (
     <div className="flex items-center gap-6 min-w-0">
       <ImageFrame size={150} src={src} isCircle alt='character' placeholder='캐릭터' />

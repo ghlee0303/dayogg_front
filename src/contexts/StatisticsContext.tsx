@@ -103,7 +103,6 @@ export function StatisticsProvider({ children }: { children: ReactNode }) {
         playerId: `${playerId}`,
         seasonId: `${seasonId}`,
       },
-      onSuccess: (value) => console.log(value),
       onError: (error) => console.error(error),
     })
   }
@@ -122,7 +121,6 @@ export function StatisticsProvider({ children }: { children: ReactNode }) {
         seasonId: `${seasonId}`,
       },
       body: requestList,
-      onSuccess: (value) => console.log(value),
       onError: (error) => console.error(error),
     })
   }

@@ -41,7 +41,6 @@ export function TierRangeProvider({ children }: { children: ReactNode }) {
         seasonId: seasonId,
         dateTime: dateTime,
       },
-      onSuccess: (data) => console.log(data),
       onError: (error) => console.error(error),
     })
   }
