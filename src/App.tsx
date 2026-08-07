@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react"
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { HomePage } from '@/pages/home'
 import { PlayerPage } from '@/pages/player'
@@ -33,6 +34,7 @@ function App() {
           </TierRangeProvider>
         </SeasonProvider>
       </BrowserRouter>
+      <Analytics />
     </LocaleProvider>
   )
 }
