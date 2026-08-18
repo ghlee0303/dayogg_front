@@ -144,7 +144,7 @@ function BattleResultRow({ result }: { result: BattleResult }) {
   const accent = rankAccent(result.gameRank)
 
   return (
-    <div className="relative flex items-center gap-5 overflow-hidden rounded-md bg-gray-700/50 px-4 py-3">
+    <div className="relative flex flex-wrap items-center gap-x-4 gap-y-3 overflow-hidden rounded-md bg-gray-700/50 px-4 py-3 md:flex-nowrap md:gap-x-5 md:gap-y-0">
       {/* 좌측 순위 컬러 바 */}
       <div className={`absolute left-0 top-0 h-full w-1.5 ${accent.bar}`} />
 
@@ -152,7 +152,7 @@ function BattleResultRow({ result }: { result: BattleResult }) {
       <CharacterInfo characterNum={result.characterNum} level={result.characterLevel} />
       <WeaponAndTraits result={result} />
 
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <MainStat
           label="TK / 제거 / 빈사"
           value={`${result.teamKill} / ${result.teamElimination} / ${result.teamDown}`}

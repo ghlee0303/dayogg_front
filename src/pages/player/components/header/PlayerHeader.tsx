@@ -23,12 +23,15 @@ export type Tab = typeof TABS[number]
 // 마지막 조회 후 이 시간이 지나야 다시 갱신할 수 있다
 const REFRESH_COOLDOWN_MINUTES = 10
 
+// 프로필 이미지를 구할 수 없을 때 쓰는 기본 이미지
+const DEFAULT_PROFILE_IMG = '/img/adina_01.png'
+
 export function PlayerHeader({ /* onSelectSeason, */ activeTab, onTabChange }: PlayerHeaderProps) {
   return (
-    <div className="bg-gray-800 text-white max-w-5xl mx-auto rounded-lg shadow-md">
-      <div className="mx-auto max-w-5xl px-6">
-        {/* 상단 영역 */}
-        <div className="relative py-6 pr-24">
+    <div className="bg-gray-800 text-white max-w-5xl mx-4 md:mx-auto rounded-lg shadow-md">
+      <div className="mx-auto max-w-5xl px-4 md:px-6">
+        {/* 상단 영역 (pr은 우측 시즌 선택 자리) */}
+        <div className="relative py-6 pr-0 md:pr-24">
           {/* 좌측: 캐릭터 이미지, 정보 */}
           <PlayerProfile />
 
@@ -50,8 +53,16 @@ function PlayerProfile() {
   const src = getCharacterImgSrc('MINI', playerSeasonDetail?.mostCharacterNum)
 
   return (
-    <div className="flex items-center gap-6 min-w-0">
-      <ImageFrame size={150} src={src} isCircle alt='character' placeholder='캐릭터' />
+    <div className="flex items-center gap-4 md:gap-6 min-w-0">
+      <ImageFrame
+        size={150}
+        className="!w-[100px] !h-[100px] md:!w-[150px] md:!h-[150px]"
+        src={src}
+        fallbackSrc={DEFAULT_PROFILE_IMG}
+        isCircle
+        alt='character'
+        placeholder='캐릭터'
+      />
 
       {/* 닉네임 및 버튼 */}
       <div className="flex flex-col gap-2 min-w-0">

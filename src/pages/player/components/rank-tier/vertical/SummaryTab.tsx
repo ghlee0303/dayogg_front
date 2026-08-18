@@ -60,7 +60,7 @@ export function SummaryTab({ statistics }: { statistics: Statistics }) {
 
   return (
     <div className='px-2'>
-      <div className='mb-4 flex gap-2'>
+      <div className='mb-4 flex flex-wrap gap-2'>
         <Selector
           options={characterOptions}
           value={selectedCharacter}

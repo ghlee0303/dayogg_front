@@ -93,7 +93,7 @@ function TierInfoBody({ stat }: { stat: Statistics }) {
   }
 
   return (
-    <div className="flex items-center justify-center w-full max-w-[320px] h-full max-h-[437px]">
+    <div className="flex items-center justify-center w-full max-w-[320px] mx-auto h-full max-h-[437px]">
       {renderBody()}
     </div>
   )

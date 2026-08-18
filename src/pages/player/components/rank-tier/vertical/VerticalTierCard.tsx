@@ -44,7 +44,7 @@ function PrimaryStatRow({ items, columns = 4, className }: { items: PrimaryStatI
   return (
     <div className={`flex flex-col gap-3 ${className ?? ''}`}>
       <div
-        className="grid grid-cols-3 gap-6 mx-auto w-[calc(100%)] md:[grid-template-columns:repeat(var(--cols),minmax(0,1fr))]"
+        className="grid grid-cols-2 gap-x-4 gap-y-3 mx-auto w-[calc(100%)] md:gap-6 md:[grid-template-columns:repeat(var(--cols),minmax(0,1fr))]"
         style={{ '--cols': columns } as React.CSSProperties}
       >
         {items.map((item, index) => (
@@ -68,7 +68,7 @@ function TierCardBody({ statistics, expanded, onToggle }: TierCardBodyProps) {
   return (
     <div className="p-5 flex flex-col gap-4 md:flex-row md:items-stretch md:gap-6">
       {/* 좌측: 티어 정보 */}
-      <div className="shrink-0" style={{ width: '17rem' }}>
+      <div className="w-full md:w-[17rem] md:shrink-0">
         <TierInfo stat={statistics} />
       </div>
 
@@ -92,12 +92,12 @@ function TierCardBody({ statistics, expanded, onToggle }: TierCardBodyProps) {
         />
       </div>
 
-      {/* 우측 구역: 펼치기/접기 토글 */}
+      {/* 펼치기/접기 토글: 모바일은 하단 가로 바, md 이상은 우측 세로 바 */}
       <button
         type="button"
         onClick={onToggle}
         aria-expanded={expanded}
-        className="w-[50px] shrink-0 self-stretch -my-5 -mr-5 flex items-center justify-center bg-gray-600 hover:bg-gray-500 transition-colors"
+        className="-ml-5 -mr-5 -mb-5 mt-1 py-1.5 flex items-center justify-center bg-gray-600 hover:bg-gray-500 transition-colors md:ml-0 md:-mt-5 md:py-0 md:w-[50px] md:shrink-0 md:self-stretch"
       >
         {expanded
           ? <ChevronUp size={20} className="text-gray-200" />
@@ -111,7 +111,7 @@ function TierCardExpanded({ statistics }: { statistics: Statistics }) {
   const [activeTab, setActiveTab] = useState<DetailTab>('통계')
 
   return (
-    <div className="border-t border-gray-700 px-10 py-1">
+    <div className="border-t border-gray-700 px-4 py-1 md:px-10">
       {/* 탭 구역 */}
       <div className="flex gap-6 border-b border-gray-700 mb-5">
         {DETAIL_TABS.map(tab => (
