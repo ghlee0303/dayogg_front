@@ -10,7 +10,6 @@ import { useSeason } from '@/contexts/meta/SeasonContext'
 import { PlayerProvider, usePlayer } from '@/contexts/PlayerContext'
 import { RouteAuthProvider, useRouteAuth } from '@/contexts/RouteAuthContext'
 import { BattleResultProvider, useBattleResult } from '@/contexts/BattleResultContext'
-import { useEquip } from '@/contexts/meta/EquipContext'
 
 export function PlayerPage() {
   return (
