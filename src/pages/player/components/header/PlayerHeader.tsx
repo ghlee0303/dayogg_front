@@ -8,8 +8,9 @@ import { Selector, SelectorOptions } from '@/components/molecules/Selector'
 import { toSeasonOptions } from '@/types/PlayerType'
 import { usePlayer } from '@/contexts/PlayerContext'
 import { useLocale } from '@/contexts/meta/LocaleContext'
-import { getCharacterImgSrc, getImgSrc } from '@/utils/imgSrc'
+import { getCharacterImgSrc, } from '@/utils/imgSrc'
 import { formatTimeAgo, minutesSince } from '@/utils/timeUtils'
+import { useParams } from 'react-router-dom'
 
 interface PlayerHeaderProps {
   onSelectSeason: (seasonId: string) => void,
@@ -23,7 +24,7 @@ export type Tab = typeof TABS[number]
 // 마지막 조회 후 이 시간이 지나야 다시 갱신할 수 있다
 const REFRESH_COOLDOWN_MINUTES = 10
 
-// 프로필 이미지를 구할 수 없을 때 쓰는 기본 이미지
+// 모스트 캐릭터 정보를 받았는데도 이미지를 구할 수 없을 때 쓰는 기본 이미지
 const DEFAULT_PROFILE_IMG = '/img/adina_01.png'
 
 export function PlayerHeader({ /* onSelectSeason, */ activeTab, onTabChange }: PlayerHeaderProps) {
@@ -49,6 +50,7 @@ export function PlayerHeader({ /* onSelectSeason, */ activeTab, onTabChange }: P
 }
 
 function PlayerProfile() {
+  const { name } = useParams<{ name: string }>()
   const { player, playerSeasonDetail } = usePlayer()
   const src = getCharacterImgSrc('MINI', playerSeasonDetail?.mostCharacterNum)
 
@@ -58,10 +60,11 @@ function PlayerProfile() {
         size={150}
         className="!w-[100px] !h-[100px] md:!w-[150px] md:!h-[150px]"
         src={src}
-        fallbackSrc={DEFAULT_PROFILE_IMG}
+        // 모스트 캐릭터 정보가 오기 전에는 기본 이미지 대신 placeholder를 보여준다
+        fallbackSrc={playerSeasonDetail ? DEFAULT_PROFILE_IMG : undefined}
         isCircle
         alt='character'
-        placeholder='캐릭터'
+        placeholder={name ?? '캐릭터'}
       />
 
       {/* 닉네임 및 버튼 */}
