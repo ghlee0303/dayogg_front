@@ -31,7 +31,7 @@ interface MmrEndpointProps {
 
 function MmrEndpoint({ side, numberRange, tierOptions, onMmrCommit, onTierChange }: MmrEndpointProps) {
   return (
-    <div className="flex flex-col items-center gap-1 w-[130px]">
+    <div className="flex flex-col items-center gap-1 flex-1 md:flex-none md:w-[130px]">
       <NumberCell
         value={side.slider ?? null}
         min={numberRange.min}
@@ -145,7 +145,7 @@ export function MmrRange({
   }
 
   return (
-    <div className="px-2 flex items-center gap-3">
+    <div className="px-2 flex flex-wrap items-center gap-3">
       <MmrEndpoint
         side={start}
         numberRange={{ min: bounds.min, max: Math.min(end.mmr - MMR_STEP, bounds.max) }}
@@ -153,7 +153,7 @@ export function MmrRange({
         onMmrCommit={(v) => onRangeChange('START', { mmr: v, })}
         onTierChange={handleTierChange('START')}
       />
-      <div className="flex-1">
+      <div className="order-last w-full md:order-none md:w-auto md:flex-1">
         <RangeSlider
           step={MMR_STEP}
           start={start.slider}

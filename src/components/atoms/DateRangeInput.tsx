@@ -8,7 +8,7 @@ interface DateRangeInputProps {
 }
 
 const inputClass =
-  'flex-1 bg-gray-900 border border-gray-700 rounded-md px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-hidden focus:ring-2 focus:ring-blue-500 [color-scheme:dark]'
+  'w-full md:w-auto md:flex-1 min-w-0 bg-gray-900 border border-gray-700 rounded-md px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-hidden focus:ring-2 focus:ring-blue-500 [color-scheme:dark]'
 
 export function DateRangeInput({
   startDate,
@@ -20,7 +20,7 @@ export function DateRangeInput({
 }: DateRangeInputProps) {
 
   return (
-    <div className="flex items-center gap-2" style={{ width }}>
+    <div className="flex flex-col md:flex-row md:items-center gap-2" style={{ width }}>
       <input
         type="date"
         value={startDate}
@@ -29,7 +29,7 @@ export function DateRangeInput({
         max={endDate || max}
         className={inputClass}
       />
-      <span className="text-gray-400 text-sm">-</span>
+      <span className="hidden md:inline text-gray-400 text-sm">-</span>
       <input
         type="date"
         value={endDate}

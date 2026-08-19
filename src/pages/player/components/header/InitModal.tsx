@@ -30,10 +30,7 @@ export function InitModal({ onClose }: InitModalProps) {
 
   return (
     <Modal onClose={onClose} >
-      <div
-        className="bg-gray-800 rounded-lg shadow-xl p-6 flex flex-col gap-4 w-full h-full"
-        style={{ width: 900 }}
-      >
+      <div className="custom-scrollbar bg-gray-800 rounded-lg shadow-xl p-4 md:p-6 flex flex-col gap-4 w-[900px] max-w-full max-h-[85vh] overflow-y-auto">
         {step === 1 ? (
           <Guide onClose={onClose} onNext={() => setStep(2)} />
         ) : routeAuth?.id == null ? (

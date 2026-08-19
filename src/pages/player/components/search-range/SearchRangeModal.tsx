@@ -68,7 +68,7 @@ function OptionListItem({ label, selected, onSelect, onDelete }: OptionListItemP
           onSelect()
         }
       }}
-      className={`shrink-0 border rounded-md py-3 px-3 text-sm text-gray-200 hover:bg-gray-700 transition-colors cursor-pointer flex items-center justify-between gap-2 ${selected
+      className={`shrink-0 min-w-[6rem] md:min-w-0 border rounded-md py-3 px-3 text-sm text-gray-200 hover:bg-gray-700 transition-colors cursor-pointer flex items-center justify-between gap-2 ${selected
         ? 'border-blue-500 bg-gray-700'
         : 'border-gray-600'
         }`}
@@ -91,17 +91,19 @@ function OptionListItem({ label, selected, onSelect, onDelete }: OptionListItemP
 
 function OptionListPanel({ options, selectedIndex, onSelect, onAdd, onDelete }: OptionListPanelProps) {
   return (
-    <div className="custom-scrollbar w-56 shrink-0 border border-gray-700 rounded-md p-3 flex flex-col gap-3 overflow-y-auto">
+    <div className="custom-scrollbar w-full md:w-56 shrink-0 border border-gray-700 rounded-md p-3 flex flex-col gap-3 md:overflow-y-auto">
       <OptionListHeader onAdd={onAdd} />
-      {options.map((option, index) => (
-        <OptionListItem
-          key={index}
-          label={option.label}
-          selected={selectedIndex === index}
-          onSelect={() => onSelect(index)}
-          onDelete={() => onDelete(index)}
-        />
-      ))}
+      <div className="custom-scrollbar flex flex-row md:flex-col gap-2 md:gap-3 overflow-x-auto md:overflow-x-visible pb-1 md:pb-0">
+        {options.map((option, index) => (
+          <OptionListItem
+            key={index}
+            label={option.label}
+            selected={selectedIndex === index}
+            onSelect={() => onSelect(index)}
+            onDelete={() => onDelete(index)}
+          />
+        ))}
+      </div>
     </div>
   )
 }
@@ -134,8 +136,8 @@ function OptionEditor({
   }
 
   return (
-    <div className="mt-5 flex-1 flex flex-col gap-5">
-      <div className="flex flex-col gap-3 w-2/5">
+    <div className="mt-0 md:mt-5 flex-1 min-w-0 flex flex-col gap-4 md:gap-5">
+      <div className="flex flex-col gap-3 w-full md:w-2/5">
         <span className="text-sm text-gray-200 font-semibold">이름</span>
         <CommitInput
           variant="black"
@@ -156,8 +158,8 @@ function OptionEditor({
         />
       </div>
 
-      <div className="mt-2 flex items-end gap-3">
-        <div className='flex flex-col gap-3 w-3/5'>
+      <div className="mt-0 md:mt-2 flex items-end gap-3">
+        <div className='flex flex-col gap-3 w-full md:w-3/5 md:min-w-[280px]'>
           <span className="text-sm text-gray-200 font-semibold">날짜</span>
           <DateRangeInput
             startDate={selected.range.START.date ?? ''}
@@ -174,7 +176,7 @@ function OptionEditor({
 
 function EditorPlaceholder({ message }: { message: string }) {
   return (
-    <div className="mt-5 flex-1 flex items-center justify-center text-gray-400 text-sm">
+    <div className="mt-0 md:mt-5 flex-1 min-h-[80px] md:min-h-0 flex items-center justify-center text-gray-400 text-sm">
       {message}
     </div>
   )
@@ -223,11 +225,8 @@ export function SearchRangeModal({
 
   return (
     <Modal onClose={onClose}>
-      <div
-        className="bg-gray-800 rounded-lg shadow-xl p-6 flex flex-col gap-6"
-        style={{ width: 900, height: 420 }}
-      >
-        <div className="flex gap-6 flex-1 min-h-0">
+      <div className="bg-gray-800 rounded-lg shadow-xl p-4 md:p-6 flex flex-col gap-4 md:gap-6 w-[900px] max-w-full max-h-[85vh] md:h-[420px]">
+        <div className="custom-scrollbar flex flex-col md:flex-row gap-4 md:gap-6 flex-1 min-h-0 overflow-y-auto md:overflow-y-visible">
           <OptionListPanel
             options={options}
             selectedIndex={selectedIndex}
