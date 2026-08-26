@@ -70,31 +70,31 @@ export interface ResponseSide {
   tierLabel?: string;
 }
 
-export namespace Statistics {
-  export interface SeasonTotal extends BaseStatistics {
-    type: 'SEASON_TOTAL';
-    tierEnum: TierEnum;
-    mmr: number;
-    totalRank: number;
-    serverRank: number;
-    serverName: string;
-    totalRange: Partial<Record<TierEnum, Record<RangeSideEnum, ResponseSide>>>;
-  }
-  export interface Tier extends BaseStatistics {
-    type: 'TIER';
-    tierEnum: TierEnum;
-    request?: Record<RangeSideEnum, RequestSide>;
-  }
-  export interface Range extends BaseStatistics {
-    type: 'RANGE';
-    request: Record<RangeSideEnum, RequestSide>;
-  }
+export interface SeasonTotalStatistics extends BaseStatistics {
+  type: 'SEASON_TOTAL';
+  tierEnum: TierEnum;
+  mmr: number;
+  totalRank: number;
+  serverRank: number;
+  serverName: string;
+  totalRange: Partial<Record<TierEnum, Record<RangeSideEnum, ResponseSide>>>;
+}
+
+export interface TierStatistics extends BaseStatistics {
+  type: 'TIER';
+  tierEnum: TierEnum;
+  request?: Record<RangeSideEnum, RequestSide>;
+}
+
+export interface RangeStatistics extends BaseStatistics {
+  type: 'RANGE';
+  request: Record<RangeSideEnum, RequestSide>;
 }
 
 export type Statistics =
-  | Statistics.SeasonTotal
-  | Statistics.Tier
-  | Statistics.Range;
+  | SeasonTotalStatistics
+  | TierStatistics
+  | RangeStatistics;
 
 export interface CharacterStat extends Average {
   characterNum: string

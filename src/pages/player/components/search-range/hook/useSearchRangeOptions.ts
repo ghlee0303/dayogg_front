@@ -10,7 +10,7 @@ import {
   buildTierOptions,
   createNewOption,
 } from "@/pages/player/components/search-range/type/SearchRangeOptionType"
-import { isTopTier, TierEnum, TierRange } from '@/types/TierType'
+import { isTopTier, TierRange } from '@/types/TierType'
 
 const resolveMmr = (
   side: RangeSideEnum,

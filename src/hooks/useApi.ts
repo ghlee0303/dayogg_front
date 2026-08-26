@@ -4,7 +4,7 @@ import { applyUrlParams } from '@/utils/apiUtils'
 import { HttpMethod } from '@/types/ApiType'
 
 export interface UseApiOptions<TBody, TResponse> {
-  urlParams?: String[]
+  urlParams?: string[]
   method?: HttpMethod
   params?: Record<string, string | number | null | undefined>
   body?: TBody
@@ -29,7 +29,7 @@ export function useApi<TResponse = unknown, TBody = unknown>(url: string, option
   const execute = useCallback(async (overrideOptions?: UseApiOptions<TBody, TResponse>) => {
     const { urlParams, method = 'GET', params, body, headers, onSuccess, onError } = { ...options, ...overrideOptions }
 
-    const resolvedUrl = urlParams ? applyUrlParams(url, urlParams as string[]) : url
+    const resolvedUrl = urlParams ? applyUrlParams(url, urlParams) : url
 
     setState(prev => ({ ...prev, loading: true, error: null }))
 

@@ -1,6 +1,6 @@
 import { type SelectorOptions } from '@/components/molecules/Selector'
 import { TierEnum, TierRangeMap } from '@/types/TierType'
-import { ResponseSide, Statistics } from '@/types/statistics/StatisticsType'
+import { ResponseSide, SeasonTotalStatistics, Statistics } from '@/types/statistics/StatisticsType'
 import { RequestSide } from '@/types/statistics/request/StatisticsRangeRequestType'
 import { formatDateMMDD } from '@/utils/timeUtils'
 
@@ -27,7 +27,7 @@ const fromResponseSideToBound = (range: Record<RangeSideEnum, ResponseSide>): Bo
   }
 }
 
-export const fromSeasonTotalToRangeLimit = (seasonTotal: Statistics.SeasonTotal): SearchRangeLimit => {
+export const fromSeasonTotalToRangeLimit = (seasonTotal: SeasonTotalStatistics): SearchRangeLimit => {
   const tierEnumSet = new Set<TierEnum>()
   const tierBound = {} as Record<TierEnum, Bound>
 

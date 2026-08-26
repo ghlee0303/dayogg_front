@@ -2,11 +2,8 @@ import { TierCard } from './TierCard'
 import { TierCardList } from './TierCardList'
 import { useStatistics } from '@/contexts/StatisticsContext'
 
-interface PlayerRankTierProps {
-}
-
-export function PlayerRankTier({ }: PlayerRankTierProps) {
-  const { statistics, } = useStatistics()
+export function PlayerRankTier() {
+  const { statistics } = useStatistics()
 
   const renderTierCards = () => {
     return statistics.map((stat, index) => (

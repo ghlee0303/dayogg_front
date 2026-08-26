@@ -1,35 +1,80 @@
 # DAYO.GG
 
-이터널리턴(Eternal Return) 전적검색 웹 프론트엔드입니다. 플레이어 닉네임으로 시즌별 티어·랭크·전투 통계와 캐릭터별 성적을 조회할 수 있습니다.
+> 이터널리턴(Eternal Return) 전적검색 웹 프론트엔드. 플레이어 닉네임으로 시즌별 티어·랭크·전투 통계와 실험체(캐릭터)별 성적을 조회합니다.
+
+![React](https://img.shields.io/badge/React-18.3-61DAFB?logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-5.4-646CFF?logo=vite&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-38BDF8?logo=tailwindcss&logoColor=white)
+![Vercel](https://img.shields.io/badge/Deploy-Vercel-000000?logo=vercel&logoColor=white)
+
+**🔗 배포: [dayogg.vercel.app](https://dayogg.vercel.app/)**
 
 ---
 
-## 📖 프로젝트 설명
+## 프로젝트 개요
 
-DAYO.GG는 이터널리턴 유저의 전적을 검색하고 시각화하는 SPA(Single Page Application)입니다.
+이터널리턴 유저의 전적을 검색하고 시각화하는 SPA입니다. 닉네임으로 플레이어의 시즌별 랭크·티어와 MMR·RP, 실험체별 승률·평균 순위 등 상세 전투 통계를 확인할 수 있습니다.
 
-- 닉네임 검색으로 플레이어의 시즌별 랭크/티어(브론즈 ~ 이터니티)와 MMR·RP 정보를 조회
-- 캐릭터별 승률·평균 순위 등 상세 전투 통계 제공
-- MMR 구간·시즌·특성·장비 등 메타 데이터 기반의 검색 범위 필터링
-- SSE(Server-Sent Events)를 통한 전적 갱신 상태의 실시간 반영
-- 다국어(로케일) 대응 및 모바일/PC 반응형 UI
+| | |
+|---|---|
+| **개발 형태** | 1인 개발 (프론트엔드 전담) |
+| **개발 기간** | 2026.07 ~ 2026.08 |
+| **프론트엔드** | 이 저장소 |
+| **백엔드** | [ghlee0303/dayogg](https://github.com/ghlee0303/dayogg) (별도 저장소, 동일 개발자) |
+| **배포** | Vercel (`main` 브랜치 자동 배포) |
 
-> 백엔드 API 서버는 별도 저장소에서 관리되며, 이 저장소는 프론트엔드만 포함합니다.
+> 이 사이트는 이터널리턴의 공식 서비스가 아니며, 이터널리턴 공식 API를 활용해 제작되었습니다.
 
 ---
 
-## 🏗️ 설계
+## 주요 기능
 
-### 아키텍처 원칙
-- **컴포넌트 기반 + Context API 상태 관리**: 전역/도메인 상태는 Context Provider로 주입하고, 로컬 상태는 `useState`/`useReducer`로 관리
+| 기능 | 설명 |
+|------|------|
+| **플레이어 검색** | 닉네임으로 `/player/:name` 전적 페이지 진입 |
+| **랭크·티어 조회** | 시즌별 티어(브론즈~이터니티), MMR·RP, 티어 구간 정보 |
+| **실험체 통계** | 캐릭터별 게임 수·승률·평균 순위·딜량·시야 등 정렬 가능한 상세 테이블 |
+| **검색 범위 필터** | MMR·티어 구간과 기간을 조합한 프리셋/커스텀 옵션으로 통계 조회 범위 조정 |
+| **실시간 전적 갱신** | SSE로 갱신 상태를 실시간 반영, `전적 갱신` 버튼에 10분 쿨다운 |
+| **통계 초기화** | 닉네임 변경 유저의 데이터 정합성을 위한 루트 기반 본인 확인 절차 |
+| **다국어(KO/EN)** | 서버 로케일 메타 기반으로 실험체·스킨·무기 등 명칭 현지화 |
+| **반응형 UI** | 모바일 / PC 레이아웃 대응 |
+
+---
+
+## 기술 스택
+
+| 분류 | 사용 기술 |
+|------|-----------|
+| 언어 | TypeScript 5.6 (strict) |
+| UI | React 18.3 |
+| 라우팅 | React Router 6 |
+| 빌드 | Vite 5 |
+| 스타일링 | Tailwind CSS 4 (`@tailwindcss/vite`) |
+| 상태 관리 | React Context API + Hooks |
+| 통신 | Fetch API (REST 래퍼), EventSource (SSE) |
+| UI 라이브러리 | lucide-react(아이콘), react-range(레인지 슬라이더) |
+| 분석 | Vercel Web Analytics |
+| 코드 품질 | ESLint 9 (typescript-eslint, react-hooks) |
+| 배포 | Vercel |
+
+---
+
+## 아키텍처
+
+### 설계 원칙
+
+- **컴포넌트 기반 + Context API 상태 관리** — 전역/도메인 상태는 Context Provider로 주입, 로컬 상태는 `useState`/`useReducer`
 - **아토믹 디자인 + 페이지 기반 구조 혼합**
   - 여러 페이지에서 재사용되는 공통 컴포넌트 → `components/`의 `atoms` / `molecules` / `organisms`
-  - 특정 페이지에서만 쓰이는 컴포넌트 → 해당 `pages/<page>/components/` 하위에 배치
-- **TypeScript strict 모드**: 모든 도메인 데이터는 `types/`에 명시적으로 타입 정의
-- **관심사 분리**: API 호출(`utils/api.ts`) / 요청 훅(`hooks/useApi.ts`, `useSSE.ts`) / 상태(`contexts/`) / 표현(`components/`, `pages/`) 계층 분리
+  - 특정 페이지에서만 쓰이는 컴포넌트 → 해당 `pages/<page>/components/` 하위
+- **TypeScript strict** — 모든 도메인 데이터는 `types/`에 명시적으로 타입 정의
+- **관심사 분리** — API 호출(`utils/api.ts`) / 요청 훅(`hooks/`) / 상태(`contexts/`) / 표현(`components/`, `pages/`) 계층 분리
 
 ### 상태 관리 구조
-전역 메타 데이터(로케일·시즌·티어 구간·특성·장비)는 앱 최상단에서 Provider로 감싸고, 플레이어 페이지 진입 시 플레이어/통계/전투결과 등 도메인 Provider가 추가로 중첩됩니다.
+
+전역 메타 데이터(로케일·시즌·티어 구간·특성·장비)를 앱 최상단에서 Provider로 감싸고, 플레이어 페이지 진입 시 도메인 Provider가 추가로 중첩됩니다.
 
 ```
 LocaleProvider
@@ -39,54 +84,82 @@ LocaleProvider
 ```
 
 ### 데이터 통신
-- REST 요청은 `utils/api.ts`의 `api.get/post/...` 래퍼로 통일하고, `ApiError`로 에러를 정규화
+
+- REST 요청은 `utils/api.ts`의 `api.get/post/...` 래퍼로 통일하고 `ApiError`로 에러를 정규화
 - 컴포넌트에서는 `useApi` 훅으로 로딩/에러/데이터 상태를 관리
-- 실시간 갱신이 필요한 경우 `useSSE` 훅으로 EventSource 연결
+- 실시간 갱신이 필요한 경우 `useSSE` 훅으로 `EventSource` 연결
+- API 서버 주소는 `VITE_API_URL` 환경변수로 주입 (기본값 `http://localhost:8080`)
 
 ---
 
-## 🛠️ 기술 스택
+## 기술적 도전
 
-| 구분 | 기술 |
-|------|------|
-| 언어 | TypeScript (strict) |
-| 프레임워크 | React 18 |
-| 스타일링 | Tailwind CSS v4 (`@tailwindcss/vite`) |
-| 상태 관리 | React Context API + Hooks |
-| 통신 | Fetch API (REST), EventSource (SSE) |
+### 1. SSE 갱신 구조를 상태 머신으로 재설계
 
----
+초기 구현은 전적 갱신이 끝나면 `<PlayerProvider key={refreshKey}>`의 `key`를 바꿔 서브트리를 통째로 리마운트해 재조회를 유도했습니다. 이 방식은 두 가지 문제가 있었습니다.
 
-## 🔍 플레이어 전적검색 화면
+- refresh SSE가 에러로 끝나면 복구 경로가 없어 **탭 영역이 무한 로딩**에 빠짐
+- 서버가 `CONTINUE`를 반복하면 `info → refresh → 리마운트 → info` **무한 루프** 발생
 
-`/player/:name` 경로로 진입하는 핵심 화면입니다. 홈에서 닉네임을 검색하면 해당 플레이어의 시즌별 전적 상세를 조회합니다.
+`searching / syncing / refreshing / ready / error` 5개 상태와 재시도 카운터(최대 3회)를 갖는 상태 머신을 `PlayerContext` 한 곳에 모아, 리마운트 없이 데이터만 갱신하도록 재설계했습니다. 결과적으로 탭·시즌 등 UI 상태가 갱신 사이클에서 자연히 보존되고, 실패 시 에러 화면으로 명확히 전이합니다.
 
-### 조회 흐름
-1. 닉네임으로 플레이어 정보와 최신 시즌을 조회하고, 시즌별 통계·전투 결과를 로드
-2. 데이터를 불러오는 동안 **로딩 화면**(`PlayerLoading`), 실패 시 **에러 화면**(`PlayerError`) 표시
-3. 유저가 바뀌면 이전 유저의 통계·전투결과 등 파생 데이터를 초기화
+→ 상세: [설계 문서](docs/design/0706-player-refresh-redesign.md) · [사전 점검](docs/design/0706-player-refresh-report.md)
 
-### 화면 구성
-- **플레이어 헤더 (`PlayerHeader`)**: 프로필 정보와 시즌 선택, `프로필` / `실험체` 탭 전환
-- **랭크·티어 (`PlayerRankTier`, `PlayerRankTierVertical`)**: 시즌별 티어 카드(브론즈 ~ 이터니티)와 티어 구간 정보, 요약·전투결과 탭
-- **검색 범위 필터 (`SearchRangeModal`)**: MMR 구간·티어·기간 등을 지정해 통계 조회 범위를 조정 (프리셋 및 직접 입력 지원)
-- **실험체 통계 (`PlayerCharacterTable`)**: 캐릭터(실험체)별 승률·평균 순위 등 상세 성적 테이블
+### 2. Nullable prop을 경계에서 해소
 
-### 상태 관리
-플레이어 페이지 진입 시 다음 도메인 Provider가 중첩되어 각 데이터를 담당합니다.
+자식 컴포넌트 props에 `?.`, `?? ''`, `disabled={x === null}`이 반복 드릴링되는 것을 "nullable이 잘못된 레이어까지 흘렀다"는 신호로 보고, **부모에서 가드 후 자식을 렌더**(자식 props는 non-nullable로 좁힘), **Context는 Provider 훅에서 미초기화 시 throw** 규칙으로 정리했습니다.
 
-- `PlayerProvider` — 플레이어 기본 정보
-- `RouteAuthProvider` — 경로 접근 제어
-- `StatisticsProvider` — 시즌 통계
-- `BattleResultProvider` — 전투 결과
+### 3. Tailwind v4 마이그레이션 중 한글 인코딩 손상 복구
+
+클래스 일괄 치환을 PowerShell로 실행하며 인코딩을 지정하지 않아, UTF-8 한글이 CP949로 오해석되어 10개 파일 75행이 손상됐습니다. 역변환(`iconv`) + VS Code 로컬 히스토리 + 직전 빌드 산출물을 라인 단위로 대조해 전량 복구하고, 재발 방지 절차를 문서화했습니다.
+
+→ 상세: [복구 기록](docs/design/encoding-incident.md)
 
 ---
 
-## 📁 프로젝트 구조
+## 로컬 실행
+
+```bash
+# 의존성 설치
+npm install
+
+# 개발 서버 (http://localhost:5173)
+npm run dev
+
+# 프로덕션 빌드
+npm run build
+
+# 빌드 결과 미리보기
+npm run preview
+
+# 린트 / 타입 체크
+npm run lint
+npm run typecheck
+```
+
+### 환경변수
+
+API 서버 주소는 `VITE_API_URL` 환경변수로 주입합니다. 로컬 개발은 프로젝트 루트에 `.env.local`을 두고 사용하며, 필요한 변수는 [`.env.example`](.env.example)에 문서화되어 있습니다.
 
 ```
-claude-front/
+VITE_API_URL=http://localhost:8080
+```
+
+배포 설정은 [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) 참고.
+
+---
+
+## 프로젝트 구조
+
+<details>
+<summary>디렉토리 트리</summary>
+
+```
+dayogg_front/
 ├─ public/                     # 정적 에셋 (이미지 등)
+├─ docs/
+│  ├─ DEPLOYMENT.md            # Vercel 배포 가이드
+│  └─ design/                  # 설계·트러블슈팅 기록
 ├─ src/
 │  ├─ App.tsx                  # 라우팅 + 전역 Provider 구성
 │  ├─ main.tsx                 # 앱 진입점
@@ -110,7 +183,7 @@ claude-front/
 │  │
 │  ├─ contexts/                # 전역/도메인 상태 (Context Provider)
 │  │  ├─ meta/                 # Locale, Season, TierRange, Trait, Equip
-│  │  ├─ PlayerContext.tsx
+│  │  ├─ PlayerContext.tsx     # 갱신 상태 머신
 │  │  ├─ StatisticsContext.tsx
 │  │  ├─ BattleResultContext.tsx
 │  │  ├─ SearchContext.tsx
@@ -123,46 +196,21 @@ claude-front/
 │  │  └─ useLocalizedName.ts
 │  │
 │  ├─ types/                   # 도메인 타입 정의
-│  │  ├─ battle/  statistics/  # 요청/응답 타입
-│  │  ├─ PlayerType.ts  TierType.ts  SeasonType.ts ...
-│  │
-│  ├─ utils/                   # API·이미지·시간·값 유틸
-│  │  ├─ api.ts  apiUtils.ts   # fetch 래퍼 / URL 빌더
-│  │  └─ imgSrc.ts  timeUtils.ts  valueUtils.ts
-│  │
-│  ├─ data/                    # 정적 데이터 (캐릭터/티어)
-│  └─ test/                    # 테스트 셋업
+│  ├─ utils/                   # api / imgSrc / time / value 유틸
+│  └─ data/                    # 정적 데이터 (캐릭터/티어)
 │
 ├─ index.html
-├─ vite.config.ts              # Vite 설정 (@ → src 별칭)
-├─ vitest.config.ts
+├─ vite.config.ts
 ├─ eslint.config.js
 └─ tsconfig*.json
 ```
 
+</details>
+
 ---
 
-## 🚀 시작하기
+## 라이선스 / 저작권
 
-```bash
-# 의존성 설치
-npm install
-
-# 개발 서버 실행 (http://localhost:5173)
-npm run dev
-
-# 프로덕션 빌드
-npm run build
-
-# 빌드 결과 미리보기
-npm run preview
-
-# 린트
-npm run lint
-
-# 테스트
-npm run test        # watch 모드
-npm run test:run    # 1회 실행
-```
-
-> API 서버 주소는 `src/utils/apiUtils.ts`의 `API_URL`에 정의되어 있습니다 (기본값: `http://localhost:8080`).
+- 소스 코드는 개인 포트폴리오 용도로 공개됩니다.
+- `public/img/` 등에 포함된 이터널리턴 게임 이미지(캐릭터·스킨·아이템·무기 등)의 저작권은 **Nimble Neuron**에 있으며, 팬 콘텐츠 목적으로만 사용됩니다.
+- 이터널리턴 [API 이용약관](https://support.playeternalreturn.com/hc/ko/articles/49090866623257-API-%EC%9D%B4%EC%9A%A9-%EC%95%BD%EA%B4%80-2025-07-22)을 준수합니다.

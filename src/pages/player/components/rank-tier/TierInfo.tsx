@@ -1,5 +1,5 @@
 import { ImageFrame } from '@/components/atoms/ImageFrame'
-import { Statistics } from '@/types/statistics/StatisticsType'
+import { RangeStatistics, SeasonTotalStatistics, Statistics, TierStatistics } from '@/types/statistics/StatisticsType'
 import { TierEnum } from '@/types/TierType'
 import noDataImg from '@/assets/img/tier/no_data.png'
 import { extractDate, formatDateMMDD } from '@/utils/timeUtils'
@@ -17,7 +17,7 @@ function TierImg({ tierEnum, alt, placeholder, size = 65, height = 90 }: {
   return <ImageFrame size={size} height={height} alt={alt} placeholder={placeholder} src={src} />
 }
 
-function RangeTierInfo({ stat }: { stat: Statistics.Range }) {
+function RangeTierInfo({ stat }: { stat: RangeStatistics }) {
   const startDate = extractDate(stat.range.START.dateTime)
   const endDate = extractDate(stat.range.END.dateTime)
 
@@ -50,7 +50,7 @@ function RangeTierInfo({ stat }: { stat: Statistics.Range }) {
   )
 }
 
-function TotalTierInfo({ stat }: { stat: Statistics.SeasonTotal }) {
+function TotalTierInfo({ stat }: { stat: SeasonTotalStatistics }) {
   return (
     <div className="flex items-center gap-3 min-h-[4.5rem]">
       <TierImg tierEnum={stat.tierEnum} alt='tier' placeholder='티어' />
@@ -63,7 +63,7 @@ function TotalTierInfo({ stat }: { stat: Statistics.SeasonTotal }) {
   )
 }
 
-function SingleTierInfo({ stat }: { stat: Statistics.Tier }) {
+function SingleTierInfo({ stat }: { stat: TierStatistics }) {
   const startDate = extractDate(stat.range.START.dateTime)
   const endDate = extractDate(stat.range.END.dateTime)
 

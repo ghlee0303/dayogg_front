@@ -12,7 +12,7 @@ export function InitModal({ onClose }: InitModalProps) {
   const [step, setStep] = useState<1 | 2>(1)
   const { player } = usePlayer()
   const [routeNumber, setRouteNumber] = useState('')
-  const [routeTitle, setRouteTitle] = useState(() =>
+  const [routeTitle] = useState(() =>
     Math.floor(100000 + Math.random() * 900000).toString()
   )
   const { routeAuth, submitRouteAuth, deleteRouteAuth } = useRouteAuth()

@@ -19,10 +19,6 @@ dist-ssr
 .vite
 *.tsbuildinfo
 
-# Test coverage (Vitest)
-coverage
-*.lcov
-
 # Environment variables
 .env
 .env.*
