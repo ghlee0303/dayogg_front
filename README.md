@@ -53,10 +53,6 @@
 | 빌드 | Vite 5 |
 | 스타일링 | Tailwind CSS 4 (`@tailwindcss/vite`) |
 | 상태 관리 | React Context API + Hooks |
-| 통신 | Fetch API (REST 래퍼), EventSource (SSE) |
-| UI 라이브러리 | lucide-react(아이콘), react-range(레인지 슬라이더) |
-| 분석 | Vercel Web Analytics |
-| 코드 품질 | ESLint 9 (typescript-eslint, react-hooks) |
 | 배포 | Vercel |
 
 ---
