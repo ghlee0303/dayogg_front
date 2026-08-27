@@ -22,9 +22,6 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   const { data: locale, execute } = useApi<Locale>('meta/locale')
   const [language, setLanguage] = useState<Language>('KO')
 
-  console.log(locale);
-  
-
   const getLocale = (language: Language) => {
     execute({
       params: {
