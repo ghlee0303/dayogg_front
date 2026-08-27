@@ -106,6 +106,7 @@ export interface CharacterStat extends Average {
 
 export interface WeaponStat extends Average {
   weaponNum: string
+  equipWeaponCode: string
   weaponName?: string
 }
 

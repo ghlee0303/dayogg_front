@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react'
-import { Statistics } from '@/types/statistics/StatisticsType'
+import { Statistics, WeaponStat } from '@/types/statistics/StatisticsType'
 import { Selector, SelectorOptions } from '@/components/molecules/Selector'
 import { getCharacterImgSrc, getImgSrc } from '@/utils/imgSrc'
+import { useEquip } from '@/contexts/meta/EquipContext'
 import { StatRow, ExpandedTitle } from './StatComponents'
 
 const ALL_VALUE = 'ALL'
@@ -9,11 +10,22 @@ const ALL_VALUE = 'ALL'
 export function SummaryTab({ statistics }: { statistics: Statistics }) {
   const [selectedCharacter, setSelectedCharacter] = useState<string>(ALL_VALUE)
   const [selectedWeapon, setSelectedWeapon] = useState<string>(ALL_VALUE)
+  const { findEquipInfo } = useEquip()
 
   const character = useMemo(
     () => statistics.characterList.find((c) => c.characterNum === selectedCharacter),
     [statistics, selectedCharacter]
   )
+
+  // equipWeaponCode 가 있고 해당 EquipInfo 를 찾으면 그 EquipInfo, 아니면 undefined
+  const resolveEquip = (weapon: WeaponStat) =>
+    weapon.equipWeaponCode != null ? findEquipInfo(Number(weapon.equipWeaponCode)) : undefined
+
+  // Selector option value + 하단 통계 매칭에 함께 쓰는 값
+  const weaponValue = (weapon: WeaponStat) => {
+    const equip = resolveEquip(weapon)
+    return equip ? String(equip.code) : weapon.weaponNum
+  }
 
   const characterOptions = useMemo<SelectorOptions[]>(() => [
     { value: ALL_VALUE, label: '전체' },
@@ -33,30 +45,39 @@ export function SummaryTab({ statistics }: { statistics: Statistics }) {
 
     const weapons = [...character.weaponList]
       .sort((a, b) => b.totalGames - a.totalGames)
-      .map((weapon) => ({
-        value: weapon.weaponNum,
-        label: weapon.weaponName || weapon.weaponNum,
-        imgSrc: getImgSrc('WEAPON', weapon.weaponNum),
-      }))
+      .map((weapon) => {
+        const equip = resolveEquip(weapon)
+        return equip
+          ? {
+            value: String(equip.code),
+            label: equip.name || weapon.weaponName || weapon.weaponNum,
+            imgSrc: getImgSrc('EQUIP', equip.code),
+          }
+          : {
+            value: weapon.weaponNum,
+            label: weapon.weaponName || weapon.weaponNum,
+            imgSrc: getImgSrc('WEAPON', weapon.weaponNum),
+          }
+      })
 
     // 무기가 하나뿐이면 "전체" 항목은 제외
     return weapons.length === 1
       ? weapons
       : [{ value: ALL_VALUE, label: '전체' }, ...weapons]
-  }, [character])
+  }, [character, findEquipInfo])
 
   // 캐릭터가 바뀌면 무기 선택 초기화(무기가 하나뿐이면 그 무기를 선택)
   const handleCharacterChange = (value: string) => {
     setSelectedCharacter(value)
     const char = statistics.characterList.find((c) => c.characterNum === value)
-    setSelectedWeapon(char?.weaponList.length === 1 ? char.weaponList[0].weaponNum : ALL_VALUE)
+    setSelectedWeapon(char?.weaponList.length === 1 ? weaponValue(char.weaponList[0]) : ALL_VALUE)
   }
 
   // 캐릭터 > 무기 순으로 좁혀 표시할 통계를 결정(없으면 상위 통계)
   const data = useMemo(() => {
     if (!character) return statistics
-    return character.weaponList.find((w) => w.weaponNum === selectedWeapon) ?? character
-  }, [statistics, character, selectedWeapon])
+    return character.weaponList.find((w) => weaponValue(w) === selectedWeapon) ?? character
+  }, [statistics, character, selectedWeapon, findEquipInfo])
 
   return (
     <div className='px-2'>
@@ -89,6 +110,7 @@ export function SummaryTab({ statistics }: { statistics: Statistics }) {
             className='mb-2'
             columns={4}
             items={[
+              { label: '게임 수', value: data.totalGames },
               { label: '승률', value: data.winRate, type: 'percent', labelColor: 'text-green-400' },
               { label: 'TOP 2', value: data.top2Rate, type: 'percent', labelColor: 'text-blue-300' },
               { label: 'TOP 3', value: data.top3Rate, type: 'percent', labelColor: 'text-blue-300' },

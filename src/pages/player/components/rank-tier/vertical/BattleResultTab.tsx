@@ -121,7 +121,7 @@ function EquipmentGrid({ equipments }: { equipments: string[] }) {
               height={27}
               width={48}
               src={getImgSrc('EQUIP', info?.code)}
-              alt={info?.name ?? '장비'}
+              alt={info?.code.toString()}
               bgColor={info ? GRADE_COLOR[info.itemGrade] : 'bg-gray-700'}
             />
           ))}

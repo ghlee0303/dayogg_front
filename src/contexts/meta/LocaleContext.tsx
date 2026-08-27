@@ -10,7 +10,7 @@ interface LocaleContextValue {
   getLocale: (language: Language) => void
 }
 
-export type LocaleEnums = "SKIN" | "CHARACTER" | "WEAPON" | "TIER" | "SEASON";
+export type LocaleEnums = "SKIN" | "CHARACTER" | "EQUIP" | "WEAPON" | "TIER" | "SEASON";
 
 export type Locale = {
     [key in LocaleEnums]?: Record<string, string>;
@@ -21,6 +21,9 @@ const LocaleContext = createContext<LocaleContextValue | null>(null)
 export function LocaleProvider({ children }: { children: ReactNode }) {
   const { data: locale, execute } = useApi<Locale>('meta/locale')
   const [language, setLanguage] = useState<Language>('KO')
+
+  console.log(locale);
+  
 
   const getLocale = (language: Language) => {
     execute({
